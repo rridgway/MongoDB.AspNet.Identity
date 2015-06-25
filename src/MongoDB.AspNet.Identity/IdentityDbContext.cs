@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace MongoDB.AspNet.Identity
@@ -49,6 +50,7 @@ where TUser : IdentityUser
                 throw new Exception("No database name specified in connection string");
             }
             var client = new MongoClient(connectionString);
+            
             return client.GetServer().GetDatabase(conString.DatabaseName);
         }
 
@@ -65,6 +67,7 @@ where TUser : IdentityUser
             {
                 throw new Exception("No database name specified in connection string");
             }
+            
             return server.GetDatabase(url.DatabaseName); // WriteConcern defaulted to Acknowledged
         }
 
@@ -78,6 +81,7 @@ where TUser : IdentityUser
         {
             var client = new MongoClient(connectionString);
             MongoServer server = client.GetServer();
+            
             return server.GetDatabase(dbName);
         }
 
@@ -109,6 +113,9 @@ where TUser : IdentityUser
                 //    db = GetDatabaseFromSqlStyle(ConnectionString);
                 //}
             }
+
+            var pack = new ConventionPack { new CamelCaseElementNameConvention() };
+            ConventionRegistry.Register("camel case", pack, t => true);
 
             return db;
         }

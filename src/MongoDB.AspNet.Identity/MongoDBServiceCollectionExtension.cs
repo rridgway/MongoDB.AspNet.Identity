@@ -14,7 +14,7 @@ namespace MongoDB.AspNet.Identity
                 throw new ArgumentNullException("configure");
 
             BsonClassMap.LookupClassMap(typeof(ExternalLoginInfo));
-            //services.AddTransient<IdentityDbContext<ApplicationUser>, IdentityDbContext<ApplicationUser, MongoDB.AspNet.Identity.IdentityRole, string>>();
+            //services.AddTransient<IdentityDbContext<User>, IdentityDbContext<ApplicationUser, MongoDB.AspNet.Identity.IdentityRole, string>>();
 
             services.AddScoped<IdentityDbContext>(sp => {
                 var idbc = new IdentityDbContext();
