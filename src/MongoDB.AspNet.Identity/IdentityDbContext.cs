@@ -30,7 +30,13 @@ where TUser : IdentityUser
 
         private MongoDatabase db;
 
-        public MongoDatabase Database { get { return db ?? GetDatabase(); } }
+        public MongoDatabase Database
+        {
+            get
+            {
+                return db ?? GetDatabase();
+            }
+        }
 
         public string ConnectionString { get; set; }
         
@@ -90,6 +96,9 @@ where TUser : IdentityUser
             if (string.IsNullOrEmpty(ConnectionString))
                 throw new InvalidOperationException("connection string not provided");
 
+            var pack = new ConventionPack { new CamelCaseElementNameConvention() };
+            ConventionRegistry.Register("camel case", pack, t => true);
+
             if (!String.IsNullOrEmpty(DatabaseName))
             {
                 db = GetDatabase(ConnectionString, DatabaseName);
@@ -101,21 +110,7 @@ where TUser : IdentityUser
             else
             {
                 db = GetDatabaseFromSqlStyle(ConnectionString);
-                ////todo change this to configuration string
-                //string connStringFromManager = "Server=localhost:27017;Database=aspnet";
-                ////ConfigurationManager.ConnectionStrings[nameOrConnectionString].ConnectionString;
-                //if (connStringFromManager.ToLower().StartsWith("mongodb://"))
-                //{
-                //    db = GetDatabaseFromUrl(new MongoUrl(connStringFromManager));
-                //}
-                //else
-                //{
-                //    db = GetDatabaseFromSqlStyle(ConnectionString);
-                //}
             }
-
-            var pack = new ConventionPack { new CamelCaseElementNameConvention() };
-            ConventionRegistry.Register("camel case", pack, t => true);
 
             return db;
         }

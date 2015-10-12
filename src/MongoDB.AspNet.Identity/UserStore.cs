@@ -271,8 +271,8 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
 
-            TUser user = db.GetCollection<TUser>(collectionName).FindOne((Query.EQ("NormalizedUserName", normalizedUserName)));
-            //TUser user = Users.AsQueryable().FirstOrDefault(n => n.NormalizedUserName.Equals(normalizedUserName));
+            //TUser user = db.GetCollection<TUser>(collectionName).FindOne((Query.EQ("NormalizedUserName", normalizedUserName)));
+            TUser user = Users.AsQueryable().FirstOrDefault(n => n.NormalizedUserName.Equals(normalizedUserName));
             return Task.FromResult(user);
         }
 
@@ -301,7 +301,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
 
             //TUser user = db.GetCollection<TUser>(collectionName).FindOne((Query.EQ("Email", email)));
-            TUser user = Users.AsQueryable().FirstOrDefault(x => x.Email.Equals(email));
+            TUser user = Users.AsQueryable().FirstOrDefault(x => x.NormalizedUserName.Equals(email));
             return Task.FromResult(user);
         }
 
