@@ -108,3 +108,4 @@ Backup*/
 UpgradeLog*.XML
 MongoDB.AspNet.Identity.csproj.GhostDoc.xml
 *.lock.json
+.vs/

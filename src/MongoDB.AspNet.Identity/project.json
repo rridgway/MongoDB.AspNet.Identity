@@ -1,15 +1,11 @@
 {
-    "version": "1.0.0-6",
+    "version": "1.0.0-7",
     "dependencies": {
-        "Microsoft.AspNet.Identity": "3.0.0-beta5",
-        "mongocsharpdriver": "2.0.0-rc0"
+        "Microsoft.AspNet.Identity": "3.0.0-beta7",
+        "mongocsharpdriver":  "2.1.0-rc1"
     },
     "frameworks": {
         "dnx451": {
-            "dependencies": {
-            }
-        },
-        "dxcore50": {
             "dependencies": {
             }
         }

@@ -120,7 +120,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             foreach (var claim in claims)
             {
                 if (!user.Claims.Any(x => x.ClaimType == claim.Type && x.ClaimValue == claim.Value))
@@ -145,7 +145,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             IList<Claim> result = user.Claims.Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();
             return Task.FromResult(result);
@@ -156,15 +156,15 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             if (claim == null)
             {
-                throw new ArgumentNullException("claim");
+                throw new ArgumentNullException(nameof(claim));
             }
             if (newClaim == null)
             {
-                throw new ArgumentNullException("newClaim");
+                throw new ArgumentNullException(nameof(newClaim));
             }
 
             var matchedClaims = user.Claims.Where(uc => uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type).ToList();
@@ -189,7 +189,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             foreach (var claim in claims)
             {
@@ -213,7 +213,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             db.GetCollection<TUser>(collectionName).Insert(user);
 
@@ -230,7 +230,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             db.GetCollection(collectionName).Remove((Query.EQ("_id", ObjectId.Parse(user.Id.ToString()))));
             return Task.FromResult(IdentityResult.Success);
@@ -271,8 +271,8 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
 
-            //TUser user = db.GetCollection<TUser>(collectionName).FindOne((Query.EQ("NormalizedUserName", normalizedUserName)));
-            TUser user = Users.AsQueryable().FirstOrDefault(n => n.NormalizedUserName.Equals(normalizedUserName));
+            TUser user = db.GetCollection<TUser>(collectionName).FindOne((Query.EQ("NormalizedUserName", normalizedUserName)));
+            //TUser user = Users.AsQueryable().FirstOrDefault(n => n.NormalizedUserName.Equals(normalizedUserName));
             return Task.FromResult(user);
         }
 
@@ -344,7 +344,7 @@ namespace MongoDB.AspNet.Identity
 			ThrowIfDisposed();
 			if (user == null)
 			{
-				throw new ArgumentNullException("user");
+				throw new ArgumentNullException(nameof(user));
 			}
 			return Task.FromResult(user.NormalizedEmail);
 		}
@@ -355,7 +355,7 @@ namespace MongoDB.AspNet.Identity
 			ThrowIfDisposed();
 			if (user == null)
 			{
-				throw new ArgumentNullException("user");
+				throw new ArgumentNullException(nameof(user));
 			}
 			user.NormalizedEmail = normalizedEmail;
 			return Task.FromResult(0);
@@ -387,7 +387,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             db.GetCollection<TUser>(collectionName).Update(Query.EQ("_id", ObjectId.Parse(user.Id.ToString())), Update.Replace(user), UpdateFlags.Upsert);
             return Task.FromResult(IdentityResult.Success);
@@ -412,7 +412,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             if (!user.Logins.Any(x => x.LoginProvider == login.LoginProvider && x.ProviderKey == login.ProviderKey))
             {
@@ -432,7 +432,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.Logins.ToIList());
         }
@@ -458,7 +458,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.Logins.RemoveAll(x => x.LoginProvider == loginProvider && x.ProviderKey == providerKey);
 
@@ -474,7 +474,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PasswordHash);
         }
@@ -488,7 +488,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.PasswordHash != null);
         }
@@ -504,7 +504,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.PasswordHash = passwordHash;
             return Task.FromResult(0);
@@ -521,7 +521,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             if (!user.Roles.Contains(role, StringComparer.InvariantCultureIgnoreCase))
                 user.Roles.Add(role);
@@ -539,7 +539,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult<IList<string>>(user.Roles);
         }
@@ -554,7 +554,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.Roles.Contains(role, StringComparer.InvariantCultureIgnoreCase));
         }
@@ -570,7 +570,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.Roles.RemoveAll(r => String.Equals(r, role, StringComparison.InvariantCultureIgnoreCase));
 
@@ -587,7 +587,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             return Task.FromResult(user.SecurityStamp);
         }
@@ -603,7 +603,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (user == null)
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
 
             user.SecurityStamp = stamp;
             return Task.FromResult(0);
@@ -639,7 +639,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
 
             return Task.FromResult<string>(user.PhoneNumber);
@@ -656,7 +656,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult<bool>(user.PhoneNumberConfirmed);
         }
@@ -673,7 +673,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.PhoneNumberConfirmed = confirmed;
             return Task.FromResult<int>(0);
@@ -691,7 +691,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.TwoFactorEnabled = enabled;
             return Task.FromResult<int>(0);
@@ -708,7 +708,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult<bool>(user.TwoFactorEnabled);
         }
@@ -725,12 +725,12 @@ namespace MongoDB.AspNet.Identity
 			ThrowIfDisposed();
 			if (claim == null)
 			{
-				throw new ArgumentNullException("claim");
+				throw new ArgumentNullException(nameof(claim));
 			}
 
 			var users = Users.Where(u => u.Claims.Any(c => c.ClaimType == claim.Type && c.ClaimValue == claim.Value));
-			
-			return users.ToList();
+
+            return await Task.FromResult(users.ToList()); ;
 		}
 
 		/// <summary>
@@ -750,8 +750,8 @@ namespace MongoDB.AspNet.Identity
 
 			var users = Users.Where(u => u.Roles.Any(r => r.Equals(roleName)));
 
-			return users.ToList();
-		}
+            return await Task.FromResult(users.ToList()); ;
+        }
 
 		public Task<TUser> FindByLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -771,7 +771,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.Id != null ? user.Id.ToString() : null);
         }
@@ -782,7 +782,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.UserName);
         }
@@ -793,7 +793,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.UserName = userName;
             return Task.FromResult(0);
@@ -805,7 +805,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.NormalizedUserName);
         }
@@ -816,7 +816,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.NormalizedUserName = userName;
             return Task.FromResult(0);
@@ -835,7 +835,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.LockoutEnd);
         }
@@ -853,7 +853,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.LockoutEnd = lockoutEnd;
             return Task.FromResult(0);
@@ -871,7 +871,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.AccessFailedCount++;
             return Task.FromResult(user.AccessFailedCount);
@@ -889,7 +889,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.AccessFailedCount = 0;
             return Task.FromResult(0);
@@ -908,7 +908,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.AccessFailedCount);
         }
@@ -925,7 +925,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             return Task.FromResult(user.LockoutEnabled);
         }
@@ -943,7 +943,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (user == null)
             {
-                throw new ArgumentNullException("user");
+                throw new ArgumentNullException(nameof(user));
             }
             user.LockoutEnabled = enabled;
             return Task.FromResult(0);

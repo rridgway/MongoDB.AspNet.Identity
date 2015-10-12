@@ -57,7 +57,7 @@ namespace MongoDB.AspNet.Identity
             this.ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
 
             db.GetCollection<TRole>(collectionName).Insert(role);
@@ -69,7 +69,7 @@ namespace MongoDB.AspNet.Identity
             this.ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
 
             db.GetCollection(collectionName).Remove((Query.EQ("_id", ObjectId.Parse(role.Id.ToString()))));
@@ -117,7 +117,7 @@ namespace MongoDB.AspNet.Identity
             this.ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
 
             db.GetCollection<TRole>(collectionName).Update(Query.EQ("_id", ObjectId.Parse(role.Id.ToString())), Update.Replace(role), UpdateFlags.Upsert);
@@ -131,7 +131,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
             return Task.FromResult(role.Id.ToString());
         }
@@ -142,7 +142,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }            
             return Task.FromResult(role.Name);
         }
@@ -153,7 +153,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
             role.Name = roleName;
             return Task.FromResult(0);
@@ -165,7 +165,7 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (roleId == null)
             {
-                throw new ArgumentNullException("roleId");
+                throw new ArgumentNullException(nameof(roleId));
             }
             //TRole role = db.GetCollection<TRole>(collectionName).FindOne((Query.EQ("_id", ObjectId.Parse(roleId))));
             TRole role = Roles.FirstOrDefault(i => i.Id.Equals(roleId));
@@ -176,7 +176,7 @@ namespace MongoDB.AspNet.Identity
         {
             ThrowIfDisposed();
             if (role == null)
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
 
             var result = RoleClaims.Where(rc => rc.Id.Equals(role.Id)).Select(c => new Claim(c.ClaimType, c.ClaimValue)).ToList();
             return Task.FromResult((IList<Claim>)result);
@@ -187,11 +187,11 @@ namespace MongoDB.AspNet.Identity
             ThrowIfDisposed();
             if (role == null)
             {
-                throw new ArgumentNullException("role");
+                throw new ArgumentNullException(nameof(role));
             }
             if (claim == null)
             {
-                throw new ArgumentNullException("claim");
+                throw new ArgumentNullException(nameof(claim));
             }
             throw new NotImplementedException();
         }
@@ -207,7 +207,7 @@ namespace MongoDB.AspNet.Identity
 			ThrowIfDisposed();
 			if (role == null)
 			{
-				throw new ArgumentNullException("role");
+				throw new ArgumentNullException(nameof(role));
 			}
 			return Task.FromResult(role.NormalizedName);
 		}
@@ -218,7 +218,7 @@ namespace MongoDB.AspNet.Identity
 			ThrowIfDisposed();
 			if (role == null)
 			{
-				throw new ArgumentNullException("role");
+				throw new ArgumentNullException(nameof(role));
 			}
 			role.NormalizedName = normalizedName;
 			return Task.FromResult(0);
