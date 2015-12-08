@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.Framework.DependencyInjection;
 using MongoDB.Bson.Serialization;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace MongoDB.AspNet.Identity
 {
