@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0-rc1",
+    "dependencies": {
+        "Microsoft.AspNet.Identity": "3.0.0-rc1-final",
+        "mongocsharpdriver":  "2.1.0-rc1"
+    },
+    "frameworks": {
+        "dnx451": {
+            "dependencies": {
+            }
+        }
+    }
+}
